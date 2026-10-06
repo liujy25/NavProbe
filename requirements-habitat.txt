@@ -1,0 +1,9 @@
+# Install Habitat-Sim and the matching Habitat-Lab release first; see README.md.
+# Local Habitat runtime dependencies for VLNCE (R2R/RxR) and HM3D ObjectNav.
+# Match the Habitat 0.3.3 constraints in the habitat/full extras.
+numpy==1.26.4
+Pillow==10.4.0
+# FastDTW dependency for nDTW evaluation.
+fastdtw==0.3.4
+scipy>=1.9,<2
+omegaconf>=2.3

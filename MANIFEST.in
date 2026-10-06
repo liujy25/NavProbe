@@ -1,0 +1,17 @@
+# Source distribution resources for local VLNCE and HM3D ObjectNav evaluation.
+include scripts/__init__.py
+include scripts/run_vlnce_agent.py
+include scripts/run_hm3d_agent_batch.py
+include scripts/smoke_test_habitat.py
+include navprobe/assets/robot_icon.png
+prune navprobe/data
+include navprobe/data/LICENSE-UniLaViRA.txt
+include navprobe/data/benchmarks/r2r_100.json
+include navprobe/data/benchmarks/rxr_100.json
+include navprobe/data/benchmarks/hm3dv2_100.json
+include navprobe/config/habitat_hm3d_objectnav.yaml
+
+include requirements-habitat.txt
+include assets/pipeline.jpg
+# Include upstream source files and package resources in source distributions.
+recursive-include frontier_exploration *.py *.yaml *.md *.sh

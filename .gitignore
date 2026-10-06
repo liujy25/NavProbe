@@ -1,0 +1,18 @@
+# Python and build artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+/build/
+/dist/
+
+# Data, model weights and run outputs
+/data/
+/weights/
+/runs/
+*.log
+
+# Environment credentials
+.env
+.env.*
+!/.env.example

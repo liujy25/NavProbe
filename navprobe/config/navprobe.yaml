@@ -1,0 +1,88 @@
+# Shared algorithm parameters. Dataset resources and outputs live in datasets/*.yaml.
+# Packaged defaults resolve relative paths from the launch directory.
+# Custom files resolve relative paths from their own directory.
+schema_version: 2
+# Local random streams are reset to this seed for each episode. Excludes LLM sampling.
+seed: 0
+ablation: none
+task_executive:
+  max_place_steps: 40
+  max_execution_preparations: 2
+entity_retrieval:
+  max_rounds: 6
+waypoint_sampling:
+  method: frontier_skeleton_sample
+  sample_spacing_m: 0.8
+  min_distance_m: 0.4
+  max_distance_m: 4.5
+  max_candidates: 20
+  occlusion_tolerance_m: 0.10
+  frontier_anchor_limit: 30
+  skeleton_anchor_limit: 30
+  combined_anchor_limit: 60
+  skeleton_min_clearance_m: 0.18
+  node_dedup_radius_m: 0.5
+  global_node_dedup_radius_m: 2.0
+  stop_sample_spacing_m: 0.6
+  stop_max_distance_m: 3.0
+  anchor_nms_distance_m: 1.0
+  anchor_combine_nms_distance_m: 1.0
+  final_merge_distance_m: 1.0
+  visible_backtrack_step_m: 0.10
+mapping:
+  candidate_dedup_radius_m: 0.8
+  bev:
+    size: 2000
+    pixels_per_meter: 20
+    min_height: 0.2
+    max_height: 1.0
+    min_depth: 0.1
+    max_depth: 4.9
+    area_thresh: 1.5
+    hole_area_thresh: 100000
+    astar_clearance_radius: 0.35
+    astar_clearance_weight: 8.0
+    depth_is_normalized: false
+    virtual_max_range_blocker: true
+    virtual_max_range_pixel_stride: 4
+    virtual_max_range_blocker_dilate_px: 3
+# Radius and camera intrinsics come from the environment, not this template.
+landmark_perception:
+  detector: groundingdino # groundingdino or yolo_world.
+  threshold: 0.5
+  max_results: 8
+  same_frame_iou_threshold: 0.5
+  min_depth_m: 0.1
+  merge_distance_m: 1.0
+  max_detections_per_entity: 4
+  groundingdino:
+    model_config_path: package://navprobe/config/groundingdino/GroundingDINO_SwinT_OGC.py
+    model_checkpoint_path: weights/groundingdino_swint_ogc.pth
+    device: cuda
+    text_threshold: 0.25
+  yolo_world:
+    model_path: weights/yolov8x-world.pt
+    device: cuda
+vertical_navigation:
+  method: support_graph_2453f25
+  floor_match_threshold_m: 0.8
+model:
+  name: gpt-5.5 # Set the model identifier supported by your service.
+  base_url: https://api.openai.com/v1 # Set your OpenAI-compatible service endpoint.
+  api_key_env: NAVPROBE_API_KEY # Set to "" only for an unauthenticated local service.
+  reasoning:
+    default: medium
+    modules: # Missing modules inherit; explicit none omits the API argument.
+      task_executive: xhigh
+      skill_selector: xhigh
+  min_completion_tokens: 0
+  request_timeout_seconds: 120
+  # Token limits are module-specific; model attempts are fixed at three in code.
+  requests:
+    task_executive_initialize: {max_tokens: 4096}
+    task_executive_assess: {max_tokens: 8192}
+    skill_selector: {max_tokens: 8192}
+    waypoint_grounder: {max_tokens: 4096}
+    entity_knowledge_manager: {max_tokens: 2048}
+    place_memory: {max_tokens: 2048}
+    landmark_perception: {max_tokens: 1024}

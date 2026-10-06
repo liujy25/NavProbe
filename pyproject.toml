@@ -1,0 +1,109 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "navprobe"
+version = "0.1.0"
+description = "NavProbe visual-language and object navigation research code"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.9,<3.14"
+dependencies = [
+    "numpy>=1.24,<3",
+    "Pillow>=9,<13",
+    "scipy>=1.9,<2",
+    "scikit-image>=0.24",
+    "opencv-python-headless>=4.8",
+    "numba>=0.57",
+    "PyYAML>=6",
+]
+
+[project.optional-dependencies]
+# The OpenAI-compatible client is only required for model-backed navigation.
+llm = ["openai>=2.37"]
+# Habitat-Lab and Habitat-Sim have platform-specific installation procedures;
+# install them first as documented in README.md.
+habitat = [
+    # Match Habitat 0.3.3's binary/runtime requirements during pip resolution.
+    "numpy==1.26.4",
+    "Pillow==10.4.0",
+    "fastdtw==0.3.4",
+    "omegaconf>=2.3",
+]
+detectors = [
+    "torch>=2.0",
+    "torchvision>=0.15",
+    "ultralytics>=8.0",
+]
+analysis = [
+    "matplotlib>=3.7",
+]
+full = [
+    "numpy==1.26.4",
+    "Pillow==10.4.0",
+    "openai>=2.37",
+    "fastdtw==0.3.4",
+    "omegaconf>=2.3",
+    "torch>=2.0",
+    "torchvision>=0.15",
+    "ultralytics>=8.0",
+    "matplotlib>=3.7",
+]
+
+[project.scripts]
+navprobe-vlnce = "navprobe.cli:vlnce_main"
+navprobe-hm3d-batch = "navprobe.cli:hm3d_batch_main"
+navprobe-habitat-smoke = "navprobe.cli:habitat_smoke_main"
+
+[tool.setuptools]
+include-package-data = false
+license-files = [
+    "LICENSE",
+    "frontier_exploration/LICENSE",
+    "navprobe/config/groundingdino/LICENSE",
+    "navprobe/data/LICENSE-UniLaViRA.txt",
+]
+# ``frontier_exploration`` is an included third-party source tree whose
+# import root lives one directory below the repository root.
+packages = [
+    "navprobe",
+    "navprobe.agent",
+    "navprobe.agent.waypoint",
+    "navprobe.config",
+    "navprobe.env",
+    "navprobe.llm",
+    "navprobe.logging",
+    "navprobe.mapping",
+    "navprobe.mapping.exploration",
+    "navprobe.memory",
+    "navprobe.memory.graph",
+    "navprobe.perception",
+    "navprobe.perception.detectors",
+    "navprobe.runners",
+    "navprobe.runtime",
+    "navprobe.visualization",
+    "frontier_exploration",
+    "frontier_exploration.utils",
+]
+
+[tool.setuptools.package-dir]
+frontier_exploration = "frontier_exploration/frontier_exploration"
+
+[tool.setuptools.package-data]
+navprobe = [
+    "assets/robot_icon.png",
+    "config/habitat_r2r_vln_navprobe.yaml",
+    "config/habitat_hm3d_objectnav.yaml",
+    "config/navprobe.yaml",
+    "config/datasets/r2r.yaml",
+    "config/datasets/rxr.yaml",
+    "config/datasets/hm3dv2.yaml",
+    "config/groundingdino/GroundingDINO_SwinT_OGC.py",
+    "config/groundingdino/LICENSE",
+    "data/LICENSE-UniLaViRA.txt",
+    "data/benchmarks/r2r_100.json",
+    "data/benchmarks/rxr_100.json",
+    "data/benchmarks/hm3dv2_100.json",
+]
+frontier_exploration = ["*.yaml"]

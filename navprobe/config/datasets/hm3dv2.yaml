@@ -1,0 +1,18 @@
+# Dataset-run configuration; algorithm parameters belong in navprobe.yaml.
+# Packaged presets resolve relative paths from the launch directory.
+# Copied/custom files resolve relative paths from their own directory.
+dataset:
+  type: ObjectNav-v1
+  split: val
+  data_path: data/datasets/objectnav/hm3d/objectnav_hm3d_v2/{split}/{split}.json.gz
+  scenes_dir: data/scene_datasets
+  episode_file: package://navprobe/data/benchmarks/hm3dv2_100.json
+environment:
+  habitat_config: package://navprobe/config/habitat_hm3d_objectnav.yaml
+output:
+  record_dir: runs/hm3dv2/logs
+  results_dir: runs/hm3dv2/results
+  visualize: false
+runtime:
+  resume_completed: true
+  dry_run: false

@@ -1,0 +1,18 @@
+# Dataset-run configuration; algorithm parameters belong in navprobe.yaml.
+# Packaged presets resolve relative paths from the launch directory.
+# Copied/custom files resolve relative paths from their own directory.
+dataset:
+  type: R2RVLN-v1
+  split: val_unseen
+  data_path: data/datasets/R2R_VLNCE_v1-3/{split}/{split}.json.gz
+  scenes_dir: data/scene_datasets
+  episode_file: package://navprobe/data/benchmarks/r2r_100.json
+environment:
+  habitat_config: package://navprobe/config/habitat_r2r_vln_navprobe.yaml
+output:
+  record_dir: runs/r2r/logs
+  results_dir: runs/r2r/results
+  visualize: false
+runtime:
+  resume_completed: true
+  dry_run: false
